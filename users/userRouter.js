@@ -47,22 +47,47 @@ router.get('/:id', validateUserId, (req, res) => {
     try {
         res.status(200).json(req.user)
     } catch (error) {
+        console.log(error)
         res.status(500).json({
-            message: 'Error retrieving user'
+            error: 'Error retrieving user'
         })
     }
 });
 
-router.get('/:id/posts', (req, res) => {
-
+router.get('/:id/posts', validateUserId, async (req, res) => {
+    try {
+        posts = await Posts.get()
+        res.status(200).json(posts)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            error: 'Error retrieving posts.'
+        })
+    }
 });
 
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', validateUserId, async (req, res) => {
+    try {
+        deleted = await Users.remove(req.user.id)
+        res.status(200).json(deleted)
+    } catch (error) {
+    console.log(error)
+    res.status(500).json({
+        error: 'Error deleting user'
+    })
+    }
 });
 
-router.put('/:id', (req, res) => {
-
+router.put('/:id', validateUserId, async (req, res) => {
+    try {
+        updated = await Users.update(req.user.id, req.body)
+        res.status(200).json(updated)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            error: 'Error updating user.'
+        })
+    }
 });
 
 //custom middleware
