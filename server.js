@@ -11,7 +11,11 @@ server.use('/api/posts', postRouter)
 server.use('/api/users', userRouter)
 
 server.get('/', (req, res) => {
-  res.send(`<h2>Let's write some middleware!</h2>`)
+  res.send(`
+  <div style="display: flex; align-items: center;"><p style="margin: 0;">This project was deployed by:</p><h2 style="margin: 0;"> ${process.env.DEPLOYER}</h2></div>
+    <p>Message of the Day: ${process.env.MOTD}</p>
+    <p>Extra: ${process.env.OTHER_STUFF}</p>
+  `)
 })
 
 //custom middleware
